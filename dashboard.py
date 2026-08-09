@@ -34,7 +34,7 @@ def home():
     output = ""
     if request.method == "POST":
         target = request.form["target"]
-        output = subprocess.getoutput(f'echo "{target}" | python omni_orchestrator.py')
+        output = subprocess.getoutput(f'echo "{target}" | python omni_orchestrator_v2.py')
     return render_template_string(HTML, output=output)
 
 if __name__ == "__main__":
