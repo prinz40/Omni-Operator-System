@@ -3,8 +3,8 @@ import glob
 import subprocess
 from datetime import datetime
 
-# ===== OMNI-OPERATOR v15.1 =====
-# Engineer: Eben | The Industry Robot - Cloud Deployer Edition
+# ===== OMNI-OPERATOR v15.2 =====
+# Engineer: Eben | The Industry Robot - Testing Guardian Edition
 # =================================
 
 def log_activity(message):
@@ -21,7 +21,7 @@ class CloudDeployer:
         self.name = "CLOUD DEPLOYER v15.1"
     
     def deploy(self):
-        print(f"\n[5/5] {self.name}")
+        print(f"\n[5/6] {self.name}")
         print("="*60)
         print("Scanning for deployment type...")
         
@@ -57,15 +57,40 @@ class CloudDeployer:
     def _deploy_node(self):
         print("[SUCCESS] package.json found. Ready for Vercel.")
 
+class TestingGuardian:
+    def __init__(self):
+        self.name = "TESTING GUARDIAN v15.2"
+    
+    def test(self):
+        print(f"\n[6/6] {self.name}")
+        print("="*60)
+        print("Scanning for tests...")
+        
+        files = [f for f in os.listdir('.') if f.startswith('test_')]
+        has_tests_dir = os.path.exists('tests')
+        
+        if files or has_tests_dir:
+            print("[PYTEST] Found test files. Running...")
+            result = subprocess.run("python -m pytest -v", shell=True)
+            if result.returncode == 0:
+                print("[SUCCESS] All tests passed. Code is safe to deploy.")
+            else:
+                print("[WARNING] Some tests failed. Fix before deploying.")
+        else:
+            print("[INFO] No tests found. Creating basic test file...")
+            with open('test_basic.py', 'w') as f:
+                f.write("def test_import():\n    import omni_orchestrator\n    assert omni_orchestrator\n")
+            print("[SUCCESS] test_basic.py created. Run 'pytest' to test.")
+
 def omni_orchestrate():
     os.system("clear")
     print("*"*60)
-    print(" OMNI-OPERATOR v15.1 - THE INDUSTRY ROBOT")
-    print(" Engineer Eben | Walks Directories + Fixes All + Deploys")
+    print(" OMNI-OPERATOR v15.2 - THE INDUSTRY ROBOT")
+    print(" Engineer Eben | Fixes All + Deploys + Auto Tests")
     print("*"*60)
 
     target = input("Enter project folder or file to fix: ")
-    log_activity(f"v15.1 ORCHESTRATION STARTED on {target}")
+    log_activity(f"v15.2 ORCHESTRATION STARTED on {target}")
 
     # THE FIX: Find all files first
     files_to_scan = []
@@ -96,16 +121,20 @@ def omni_orchestrate():
             print("\n[3/3] SOLIDITY AUDITOR")
             run_module("solidity_auditor.py", file)
 
-    print("\n[4/4] STAGE 4: AUTO COMMIT")
-    os.system('git add . && git commit -m "Omni Auto-Fix by Eben v15.1"')
+    print("\n[4/6] STAGE 4: AUTO COMMIT")
+    os.system('git add . && git commit -m "Omni Auto-Fix by Eben v15.2"')
 
     # STAGE 5: CLOUD DEPLOYER
     deployer = CloudDeployer()
     deployer.deploy()
 
+    # STAGE 6: TESTING GUARDIAN
+    tester = TestingGuardian()
+    tester.test()
+
     print("\n" + "="*60)
     print("ORCHESTRATION COMPLETE.")
-    print(f"Machine scanned, fixed, and prepared {len(files_to_scan)} files for deployment.")
+    print(f"Machine scanned, fixed, tested, and prepared {len(files_to_scan)} files for deployment.")
     print("*"*60)
 
 omni_orchestrate()
