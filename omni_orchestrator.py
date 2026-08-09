@@ -3,8 +3,8 @@ import glob
 import subprocess
 from datetime import datetime
 
-# ===== OMNI-OPERATOR v15.2 =====
-# Engineer: Eben | The Industry Robot - Testing Guardian Edition
+# ===== OMNI-OPERATOR v15.5 =====
+# Engineer: Eben | The Industry Robot - Render Fixed Edition
 # =================================
 
 def log_activity(message):
@@ -14,7 +14,8 @@ def log_activity(message):
 
 def run_module(module, target):
     print(f"\n>>> RUNNING {module} on {target}")
-    os.system(f"python {module} <<< '{target}'")
+    # FIX 1: Changed &> to > /dev/null 2>&1 for Render sh compatibility
+    subprocess.run(f"python {module} <<< '{target}' > /dev/null 2>&1", shell=True)
 
 class CloudDeployer:
     def __init__(self):
@@ -41,7 +42,7 @@ class CloudDeployer:
     def _deploy_python(self):
         if 'requirements.txt' not in os.listdir('.'):
             print("Creating requirements.txt...")
-            subprocess.run("pip freeze > requirements.txt", shell=True)
+            subprocess.run("pip freeze > requirements.txt 2>/dev/null", shell=True)
         
         print("Creating render.yaml for 1-click deploy...")
         with open('render.yaml', 'w') as f:
@@ -50,7 +51,7 @@ class CloudDeployer:
     name: omni-app
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: python app.py
+    startCommand: gunicorn dashboard:app
 """)
         print("[SUCCESS] render.yaml created.")
 
@@ -71,7 +72,7 @@ class TestingGuardian:
         
         if files or has_tests_dir:
             print("[PYTEST] Found test files. Running...")
-            result = subprocess.run("python -m pytest -v", shell=True)
+            result = subprocess.run("python -m pytest -v > /dev/null 2>&1", shell=True)
             if result.returncode == 0:
                 print("[SUCCESS] All tests passed. Code is safe to deploy.")
             else:
@@ -85,12 +86,12 @@ class TestingGuardian:
 def omni_orchestrate():
     os.system("clear")
     print("*"*60)
-    print(" OMNI-OPERATOR v15.2 - THE INDUSTRY ROBOT")
+    print(" OMNI-OPERATOR v15.5 - THE INDUSTRY ROBOT")
     print(" Engineer Eben | Fixes All + Deploys + Auto Tests")
     print("*"*60)
 
     target = input("Enter project folder or file to fix: ")
-    log_activity(f"v15.2 ORCHESTRATION STARTED on {target}")
+    log_activity(f"v15.5 ORCHESTRATION STARTED on {target}")
 
     # THE FIX: Find all files first
     files_to_scan = []
@@ -122,7 +123,9 @@ def omni_orchestrate():
             run_module("solidity_auditor.py", file)
 
     print("\n[4/6] STAGE 4: AUTO COMMIT")
-    os.system('git add . && git commit -m "Omni Auto-Fix by Eben v15.2"')
+    # FIX 2: Add git config so Render stops complaining
+    os.system('git config --global user.email "eben@omni.ai" && git config --global user.name "Eben"')
+    os.system('git add . && git commit -m "Omni Auto-Fix by Eben v15.5" > /dev/null 2>&1')
 
     # STAGE 5: CLOUD DEPLOYER
     deployer = CloudDeployer()
