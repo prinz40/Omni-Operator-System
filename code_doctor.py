@@ -1,11 +1,12 @@
 import os
+import sys
 import time
 from datetime import datetime
 
-# ===== OMNI-OPERATOR v15.12 =====
+# ===== OMNI-OPERATOR v15.18 =====
 # Engineer: Eben | The Code Doctor
 # Mission: Scan Code | Detect Problems | Auto Restructure | Compile
-# Fix: Removed input() to prevent EOFError on Render
+# Fix: Added sys.argv support for Render + Auto-complete
 
 def log_activity(message):
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -13,20 +14,19 @@ def log_activity(message):
         f.write(f"[{now}] CODE_DOCTOR: {message}\n")
 
 def show_dashboard(filepath, problems, fixes):
-    os.system('clear')
-    print("="*55)
-    print("  OMNI-OPERATOR v15.12 - THE CODE DOCTOR")
-    print("  Engineer Eben | Auto Restructure + Compile")
-    print("="*55)
+    print("\n" + "="*60)
+    print(" OMNI-OPERATOR v15.18 - THE CODE DOCTOR")
+    print(" Engineer Eben | Auto Restructure + Compile")
+    print("="*60)
     print(f" Target File: {filepath}")
-    print(f" Problems Detected:")
+    print(f" Problems Detected: {len(problems)}")
     for p in problems:
-        print(f"  - {p}")
-    print(f" Fixes Applied:")
+        print(f" - {p}")
+    print(f" Fixes Applied: {len(fixes)}")
     for f in fixes:
-        print(f"  - {f}")
+        print(f" - {f}")
     print(f" Time: {datetime.now().strftime('%I:%M:%S %p')}")
-    print("="*55)
+    print("="*60)
 
 def scan_and_fix_code(filepath):
     problems = []
@@ -35,10 +35,10 @@ def scan_and_fix_code(filepath):
     if not os.path.exists(filepath):
         print(f"ERROR: File {filepath} not found")
         log_activity(f"File not found: {filepath}")
-        return
+        return problems, fixes
 
     print(f">>> SCANNING CODE: {filepath}")
-    with open(filepath, 'r') as f:
+    with open(filepath, 'r', encoding='utf-8') as f:
         code = f.read()
 
     original_code = code
@@ -66,25 +66,30 @@ def scan_and_fix_code(filepath):
         fixes.append("Code compiled successfully - No syntax errors")
         status = "COMPILED OK"
     except SyntaxError as e:
-        problems.append(f"Syntax Error: {e}")
+        problems.append(f"Syntax Error Line {e.lineno}: {e.msg}")
         status = "COMPILE FAILED"
 
     # SAVE FIXED CODE
-    if code != original_code:
+    if code!= original_code:
         new_file = filepath.replace(".py", "_optimized.py")
-        with open(new_file, 'w') as f:
+        with open(new_file, 'w', encoding='utf-8') as f:
             f.write(code)
         fixes.append(f"Saved optimized version: {new_file}")
 
     show_dashboard(filepath, problems, fixes)
-    log_activity(f"Scanned {filepath}. Problems:{len(problems)} Fixes:{len(fixes)}")
-    print(f"\n CODE DOCTOR: MISSION COMPLETE. Status: {status}")
+    log_activity(f"Scanned {filepath}. Problems:{len(problems)} Fixes:{len(fixes)} Status:{status}")
+    print(f"\n✅ CODE DOCTOR: MISSION COMPLETE. Status: {status}\n")
+    return problems, fixes
 
 # ===== RUN IT =====
-# FIX: No more input() - Render will not crash
-# To scan a file, call: scan_and_fix_code("filename.py")
+# FIX: Now accepts command line argument from Render
 if __name__ == "__main__":
-    # Example: scans itself by default. Change the filename to scan others
-    target_file = "omni_orchestrator_v2.py" 
-    log_activity(f"v15.12 STARTED on {target_file}")
+    # Get target from command line: python code_doctor.py quick
+    if len(sys.argv) > 1:
+        target_file = sys.argv[1]
+    else:
+        target_file = "omni_orchestrator_v2.py" 
+    
+    log_activity(f"v15.18 STARTED on {target_file}")
     scan_and_fix_code(target_file)
+    print("[1/3] CODE DOCTOR: DONE")
