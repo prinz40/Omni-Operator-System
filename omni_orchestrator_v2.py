@@ -1,18 +1,19 @@
-    import sys
-    if len(sys.argv) > 1 and sys.argv[1] == "quick":
-        exec(open("quick_scan.py").read())
-        exit()
+import sys
+if len(sys.argv) > 1 and sys.argv[1] == "quick":
+    exec(open("quick_scan.py").read())
+    exit()
+
 import os
 import glob
 import subprocess
 from datetime import datetime
 
-# === OMNI-OPERATOR v15.14 - TITAN MODE - THE INDUSTRY ROBOT ===
+# === OMNI-OPERATOR v15.17 - QUICK MODE + TITAN MODE ===
 # Engineer: Eben | Record Breaking Deep Scan + Evidence Report
 # Built on Android | Deployed on Render | No APIs
 
 LOG_FILE = "guardian.log.txt"
-MAX_TITAN_PASSES = 10  # Safety guard so it never loops forever
+MAX_TITAN_PASSES = 10 # Safety guard so it never loops forever
 
 def log_activity(message):
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -58,7 +59,7 @@ def run_orchestration_pass(target_files):
 
 class CloudDeployer:
     def __init__(self):
-        self.name = "CLOUD DEPLOYER v15.14"
+        self.name = "CLOUD DEPLOYER v15.17"
 
     def deploy(self):
         print(f"\n[5/7] {self.name}")
@@ -98,7 +99,7 @@ class CloudDeployer:
 
 class TestingGuardian:
     def __init__(self):
-        self.name = "TESTING GUARDIAN v15.14"
+        self.name = "TESTING GUARDIAN v15.17"
 
     def test(self):
         print(f"\n[6/7] {self.name}")
@@ -117,16 +118,16 @@ class TestingGuardian:
         else:
             print("[INFO] No tests found. Creating basic test file...")
             with open('test_basic.py', 'w') as f:
-                f.write("def test_import():\n    import omni_orchestrator_v2\n    assert omni_orchestrator_v2 is not None\n")
+                f.write("def test_import():\n import omni_orchestrator_v2\n assert omni_orchestrator_v2 is not None\n")
             print("[SUCCESS] test_basic.py created. Run 'pytest' to test.")
 
 def run_titan_mode(target_files):
     """
-    TITAN MODE v15.14 - Record Breaking Deep Scan
+    TITAN MODE v15.17 - Record Breaking Deep Scan
     Safe: Loops until clean or max 10 passes. Generates evidence report.
     """
     print("\n" + "="*60)
-    print(" TITAN MODE ACTIVATED - THE INDUSTRY ROBOT v15.14")
+    print(" TITAN MODE ACTIVATED - THE INDUSTRY ROBOT v15.17")
     print(" Engineer Eben | Deep Scan + Deep Fix + Evidence")
     print("="*60 + "\n")
     log_activity("TITAN MODE STARTED")
@@ -154,9 +155,9 @@ def run_titan_mode(target_files):
     subprocess.run(["git", "config", "--global", "user.email", "eben@omni.ai"])
     subprocess.run(["git", "config", "--global", "user.name", "Omni Bot"])
     subprocess.run(["git", "add", "."])
-    subprocess.run(["git", "commit", "-m", f"v15.14 TITAN: Deep scan complete. {total_fixes} lines secured by Eben"])
+    subprocess.run(["git", "commit", "-m", f"v15.17 TITAN: Deep scan complete. {total_fixes} lines secured by Eben"])
     
-    # EVIDENCE REPORT - THIS IS WHAT YOU SCREENSHOT FOR COMPANIES
+    # EVIDENCE REPORT
     print("\n" + "="*60)
     print(" TITAN FINAL REPORT - EVIDENCE FOR COMPANIES")
     print("="*60)
@@ -173,7 +174,7 @@ def run_titan_mode(target_files):
 def omni_orchestrate():
     os.system("clear")
     print("="*60)
-    print("OMNI-OPERATOR v15.14 - TITAN MODE")
+    print("OMNI-OPERATOR v15.17 - TITAN MODE")
     print("Engineer Eben | Deep Scan + Deploys + Auto Tests")
     print("="*60)
 
@@ -193,7 +194,7 @@ def omni_orchestrate():
         files_to_scan.append(target)
 
     if not files_to_scan:
-        print("No .py or .sol files found.")
+        print("No.py or.sol files found.")
         return
 
     print(f"\nFound {len(files_to_scan)} files to process.")
@@ -210,7 +211,7 @@ def omni_orchestrate():
     subprocess.run(["git", "config", "--global", "user.email", "eben@omni.ai"])
     subprocess.run(["git", "config", "--global", "user.name", "Omni Bot"])
     subprocess.run(["git", "add", "."])
-    subprocess.run(["git", "commit", "-m", f"Omni Auto-Fix by Eben v15.14"])
+    subprocess.run(["git", "commit", "-m", f"Omni Auto-Fix by Eben v15.17"])
     
     print("\n[5/7] STAGE 5: CLOUD DEPLOYER")
     deployer = CloudDeployer()
