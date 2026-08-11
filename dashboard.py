@@ -5,8 +5,8 @@ import datetime
 
 app = Flask(__name__)
 
-VERSION = "v15.13"
-BUILD_DATE = "Aug 10, 2026"
+VERSION = "v15.20"
+BUILD_DATE = "Aug 11, 2026"
 
 HTML = f"""
 <!DOCTYPE html>
@@ -49,7 +49,7 @@ def home():
         try:
             # FIX: timeout so Render doesn't kill it. 120s max
             result = subprocess.run(
-                ["python", "omni_orchestrator_v2.py"], 
+                ["python", "omni_orchestrator_v3.py"], 
                 input=target, 
                 capture_output=True, 
                 text=True,
