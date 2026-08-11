@@ -8,7 +8,7 @@ import glob
 import subprocess
 from datetime import datetime
 
-# === OMNI-OPERATOR v15.19 - QUICK MODE + TITAN MODE ===
+# === OMNI-OPERATOR v15.21 - QUICK MODE + TITAN MODE ===
 # Engineer: Eben | Record Breaking Deep Scan + Evidence Report
 # Built on Android | Deployed on Render | No APIs | ERROR FREE
 
@@ -59,7 +59,7 @@ def run_orchestration_pass(target_files):
 
 class CloudDeployer:
     def __init__(self):
-        self.name = "CLOUD DEPLOYER v15.19"
+        self.name = "CLOUD DEPLOYER v15.21"
 
     def deploy(self):
         print(f"\n[5/7] {self.name}")
@@ -99,7 +99,7 @@ class CloudDeployer:
 
 class TestingGuardian:
     def __init__(self):
-        self.name = "TESTING GUARDIAN v15.19"
+        self.name = "TESTING GUARDIAN v15.21"
 
     def test(self):
         print(f"\n[6/7] {self.name}")
@@ -118,16 +118,16 @@ class TestingGuardian:
         else:
             print("[INFO] No tests found. Creating basic test file...")
             with open('test_basic.py', 'w') as f:
-                f.write("def test_import():\n import omni_orchestrator_v2\n assert omni_orchestrator_v2 is not None\n")
+                f.write("def test_import():\n import omni_orchestrator_v3\n assert omni_orchestrator_v3 is not None\n")
             print("[SUCCESS] test_basic.py created. Run 'pytest' to test.")
 
 def run_titan_mode(target_files):
     """
-    TITAN MODE v15.19 - Record Breaking Deep Scan
+    TITAN MODE v15.21 - Record Breaking Deep Scan
     Safe: Loops until clean or max 10 passes. Generates evidence report.
     """
     print("\n" + "="*60)
-    print(" TITAN MODE ACTIVATED - THE INDUSTRY ROBOT v15.19")
+    print(" TITAN MODE ACTIVATED - THE INDUSTRY ROBOT v15.21")
     print(" Engineer Eben | Deep Scan + Deep Fix + Evidence")
     print("="*60 + "\n")
     log_activity("TITAN MODE STARTED")
@@ -155,7 +155,7 @@ def run_titan_mode(target_files):
     subprocess.run(["git", "config", "--global", "user.email", "eben@omni.ai"])
     subprocess.run(["git", "config", "--global", "user.name", "Omni Bot"])
     subprocess.run(["git", "add", "."])
-    subprocess.run(["git", "commit", "-m", f"v15.19 TITAN: Deep scan complete. {total_fixes} lines secured by Eben"])
+    subprocess.run(["git", "commit", "-m", f"v15.21 TITAN: Deep scan complete. {total_fixes} lines secured by Eben"])
     
     # EVIDENCE REPORT
     print("\n" + "="*60)
@@ -173,7 +173,7 @@ def run_titan_mode(target_files):
 
 def omni_orchestrate():
     print("="*60)
-    print("OMNI-OPERATOR v15.19 - TITAN MODE")
+    print("OMNI-OPERATOR v15.21 - TITAN MODE")
     print("Engineer Eben | Deep Scan + Deploys + Auto Tests")
     print("="*60)
 
@@ -189,8 +189,8 @@ def omni_orchestrate():
         target = "." # scan entire folder
         files_to_scan.extend(glob.glob(os.path.join(target, "**/*.py"), recursive=True))
         files_to_scan.extend(glob.glob(os.path.join(target, "**/*.sol"), recursive=True))
-    elif target.lower() == "quick": # FINAL FIX
-        files_to_scan.append("omni_orchestrator_v2.py") # Quick scans itself
+    elif target.lower() == "quick": # FINAL FIX v15.21
+        files_to_scan.append("omni_orchestrator_v3.py") # Quick scans itself v3
     else:
         files_to_scan.append(target)
 
@@ -212,7 +212,7 @@ def omni_orchestrate():
     subprocess.run(["git", "config", "--global", "user.email", "eben@omni.ai"])
     subprocess.run(["git", "config", "--global", "user.name", "Omni Bot"])
     subprocess.run(["git", "add", "."])
-    subprocess.run(["git", "commit", "-m", f"Omni Auto-Fix by Eben v15.19"])
+    subprocess.run(["git", "commit", "-m", f"Omni Auto-Fix by Eben v15.21"])
     
     print("\n[5/7] STAGE 5: CLOUD DEPLOYER")
     deployer = CloudDeployer()
